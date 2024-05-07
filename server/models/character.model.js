@@ -21,7 +21,18 @@ const characterSchema = new Schema({
     },
     gender: {
         type: String,
+    },
+    faction: {
+        type: String,
+        required: [true, 'Faction is required'],
+        maxLength: [20, 'Faction must be at 20 characters at most']
+    },
+    weapons: {
+        type: String,
+        required: [true, 'Faction is required'],
+        minLength: [2, 'Weapon must be at least 2 characters long']
     }
+
 }, { timestamps: true });
 const Character = model('Character', characterSchema);
 export default Character;
