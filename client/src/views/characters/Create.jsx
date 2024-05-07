@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import CharacterForm from "../../components/CharacterForm";
 
 const CreateCharacter = (props) => {
 	return (
-		<div>
-			<h1>Create Testing!</h1>
-		</div>
+		<>
+			<h1 className="text-4xl text-center font-bold my-3">Create Testing!</h1>
+			<div className="w-3/4 mx-auto">
+				<CharacterForm />
+			</div>
+		</>
 	);
 };
 
