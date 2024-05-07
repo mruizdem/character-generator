@@ -3,9 +3,15 @@ import charData from "../data.js";
 
 const CharacterForm = (props) => {
 	const usableData = charData;
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+	};
+
 	return (
 		<>
-			<form>
+			<form onSubmit={(e) => handleSubmit(e)}>
+				<input name="user" type="text" defaultValue={"anonymous"} hidden />
 				<div>
 					<label>Name:</label>
 					<input className="form-input mb-3" type="text" />
@@ -13,8 +19,13 @@ const CharacterForm = (props) => {
 				<div className="flex gap-3">
 					<div className="w-1/2">
 						<label>Race:</label>
-						<select name="race" id="race" className="form-input mb-3">
-							<option value="select" disabled selected>
+						<select
+							name="race"
+							id="race"
+							defaultValue={"pick"}
+							className="form-input mb-3"
+						>
+							<option value="pick" disabled>
 								--Select One--
 							</option>
 							{usableData.races.map((race, index) => (
@@ -26,8 +37,13 @@ const CharacterForm = (props) => {
 					</div>
 					<div className="w-1/2">
 						<label>Class:</label>
-						<select name="charClass" id="charClass" className="form-input mb-3">
-							<option value="select" disabled selected>
+						<select
+							name="charClass"
+							id="charClass"
+							defaultValue={"pick"}
+							className="form-input mb-3"
+						>
+							<option value="pick" disabled>
 								--Select One--
 							</option>
 							{usableData.classes.map((charClass, index) => (
@@ -41,8 +57,13 @@ const CharacterForm = (props) => {
 				<div className="flex gap-3">
 					<div className="w-1/2">
 						<label>Factions:</label>
-						<select name="faction" id="faction" className="form-input mb-3">
-							<option value="select" disabled selected>
+						<select
+							name="faction"
+							id="faction"
+							defaultValue={"pick"}
+							className="form-input mb-3"
+						>
+							<option value="pick" disabled>
 								--Select One--
 							</option>
 							{usableData.factions.map((faction, index) => (
@@ -54,8 +75,13 @@ const CharacterForm = (props) => {
 					</div>
 					<div className="w-1/2">
 						<label>Weapons:</label>
-						<select name="weapon" id="weapon" className="form-input mb-3">
-							<option value="select" disabled selected>
+						<select
+							name="weapon"
+							id="weapon"
+							defaultValue={"pick"}
+							className="form-input mb-3"
+						>
+							<option value="pick" disabled>
 								--Select One--
 							</option>
 							{usableData.weapons.map((weapon, index) => (
@@ -68,14 +94,22 @@ const CharacterForm = (props) => {
 				</div>
 				<div>
 					<label>Description:</label>
-					<input className="form-input mb-3" type="text" />
+					<textarea
+						name="description"
+						id="description"
+						className="form-input mb-3"
+					></textarea>
 				</div>
 				<div>
 					<label>Backstory:</label>
-					<input className="form-input mb-3" type="text" />
+					<textarea
+						name="backstory"
+						id="backstory"
+						className="form-input mb-3"
+					></textarea>
 				</div>
 				<div className="w-3/4 mx-auto">
-					<button className="btn-warning w-full">Submit</button>
+					<button className="btn-primary w-full">Submit</button>
 				</div>
 			</form>
 		</>

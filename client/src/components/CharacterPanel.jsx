@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
 const CharacterPanel = (props) => {
+	const { info } = props;
 	return (
 		<>
 			<div className="relative rounded overflow-hidden text-center">
-				<a href="#">
+				<a href={`/character/${info}`}>
 					<img
 						src="#"
 						alt="test_img"
