@@ -12,7 +12,7 @@ function App() {
 				<Route index element={<Home />} />
 				<Route path={"/character/create"} element={<CreateCharacter />} />
 				<Route path={"/character/:id"} element={<OneCharacter />} />
-				<Route path={"/character/:id/edit"} element={<UpdateCharacter />} />
+				<Route path={"/character/edit/:id"} element={<UpdateCharacter />} />
 			</Routes>
 		</>
 	);

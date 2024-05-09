@@ -17,7 +17,7 @@ async function getAllCharacters() {
     return http.get('/characters')
         .then(response => response.data)
         .catch(err => {
-            throw err;
+            throw err.message;
         });
 }
 

@@ -1,28 +1,78 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import charData from "../data.js";
+import { getOneCharacter } from "../services/BackendService.js";
 
 const CharacterForm = (props) => {
+	const { handleSubmit, characterId } = props;
 	const usableData = charData;
+	const [character, setCharacter] = useState({
+		name: "",
+		gender: "pick",
+		race: "pick",
+		class: "pick",
+		faction: "pick",
+		weapon: "pick",
+		description: "",
+		backstory: "",
+	});
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-	};
+	useEffect(() => {
+		if (characterId) {
+			getOneCharacter(characterId)
+				.then((res) => setCharacter(res))
+				.catch((err) => console.error(err));
+		}
+	}, []);
 
 	return (
 		<>
-			<form onSubmit={(e) => handleSubmit(e)}>
+			<form onSubmit={(e) => handleSubmit(e, character)}>
 				<input name="user" type="text" defaultValue={"anonymous"} hidden />
 				<div>
 					<label>Name:</label>
-					<input className="form-input mb-3" type="text" />
+					<input
+						name="name"
+						value={character.name}
+						onChange={(e) =>
+							setCharacter({ ...character, name: e.target.value })
+						}
+						className="form-input mb-3"
+						type="text"
+					/>
+				</div>
+				{/* gender */}
+				<div className="w-full">
+					<label>Gender:</label>
+					<select
+						name="gender"
+						value={character.gender}
+						onChange={(e) =>
+							setCharacter({ ...character, gender: e.target.value })
+						}
+						id="gender"
+						className="form-input mb-3"
+					>
+						<option value="pick" disabled>
+							--Select One--
+						</option>
+						{usableData.gender.map((gender, index) => (
+							<option key={index} value={gender}>
+								{gender}
+							</option>
+						))}
+					</select>
 				</div>
 				<div className="flex gap-3">
+					{/* race */}
 					<div className="w-1/2">
 						<label>Race:</label>
 						<select
+							value={character.race}
+							onChange={(e) =>
+								setCharacter({ ...character, race: e.target.value })
+							}
 							name="race"
 							id="race"
-							defaultValue={"pick"}
 							className="form-input mb-3"
 						>
 							<option value="pick" disabled>
@@ -35,12 +85,16 @@ const CharacterForm = (props) => {
 							))}
 						</select>
 					</div>
+					{/* class */}
 					<div className="w-1/2">
 						<label>Class:</label>
 						<select
-							name="charClass"
-							id="charClass"
-							defaultValue={"pick"}
+							value={character.class}
+							onChange={(e) =>
+								setCharacter({ ...character, class: e.target.value })
+							}
+							name="class"
+							id="class"
 							className="form-input mb-3"
 						>
 							<option value="pick" disabled>
@@ -55,12 +109,16 @@ const CharacterForm = (props) => {
 					</div>
 				</div>
 				<div className="flex gap-3">
+					{/* factions */}
 					<div className="w-1/2">
 						<label>Factions:</label>
 						<select
+							value={character.faction}
+							onChange={(e) =>
+								setCharacter({ ...character, faction: e.target.value })
+							}
 							name="faction"
 							id="faction"
-							defaultValue={"pick"}
 							className="form-input mb-3"
 						>
 							<option value="pick" disabled>
@@ -73,12 +131,16 @@ const CharacterForm = (props) => {
 							))}
 						</select>
 					</div>
+					{/* weapons */}
 					<div className="w-1/2">
 						<label>Weapons:</label>
 						<select
+							value={character.weapon}
+							onChange={(e) =>
+								setCharacter({ ...character, weapon: e.target.value })
+							}
 							name="weapon"
 							id="weapon"
-							defaultValue={"pick"}
 							className="form-input mb-3"
 						>
 							<option value="pick" disabled>
@@ -92,6 +154,7 @@ const CharacterForm = (props) => {
 						</select>
 					</div>
 				</div>
+				{/* description */}
 				<div>
 					<label>Description:</label>
 					<textarea
@@ -100,6 +163,7 @@ const CharacterForm = (props) => {
 						className="form-input mb-3"
 					></textarea>
 				</div>
+				{/* backstory */}
 				<div>
 					<label>Backstory:</label>
 					<textarea

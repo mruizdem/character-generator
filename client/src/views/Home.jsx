@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CharacterPanel from "../components/CharacterPanel";
 import Header from "../components/Header";
+import { getAllCharacters } from "../services/BackendService";
 
 const Home = (props) => {
-	const characters = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	const [allCharacters, setAllCharacters] = useState([]);
+
+	useEffect(() => {
+		getAllCharacters()
+			.then((res) => setAllCharacters(res))
+			.catch((err) => console.error(err));
+	}, [allCharacters]);
+
 	return (
 		<>
 			<Header
@@ -13,7 +21,7 @@ const Home = (props) => {
 				btnLinkOne={"/character/create"}
 			/>
 			<div className="w-3/4 mx-auto flex flex-col md:grid md:grid-cols-3 gap-3 mb-5">
-				{characters.map((character, index) => (
+				{allCharacters.map((character, index) => (
 					<CharacterPanel key={index} info={character} />
 				))}
 			</div>
