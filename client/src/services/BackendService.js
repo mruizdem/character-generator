@@ -17,7 +17,7 @@ async function getAllCharacters() {
     return http.get('/characters')
         .then(response => response.data)
         .catch(err => {
-            throw err;
+            throw err.message;
         });
 }
 
@@ -25,7 +25,7 @@ async function getOneCharacter(id) {
     return http.get(`/characters/${id}`)
         .then(res => res.data)
         .catch(err => {
-            throw err;
+            throw err.response.data.message;
         })
 }
 

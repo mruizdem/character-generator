@@ -1,4 +1,5 @@
 const chardata = {
+    gender: ["Male", "Female", "Neither"],
     races: ["race1", "race2", "race3"],
     classes: ["class1", "class2", "class3"],
     factions: ["faction1", "faction2", "faction3"],

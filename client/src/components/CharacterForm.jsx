@@ -1,20 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import charData from "../data.js";
+import { getOneCharacter } from "../services/BackendService.js";
 
 const CharacterForm = (props) => {
-	const usableData = charData;
+	const { handleSubmit, characterId } = props;
+	const [character, setCharacter] = useState({
+		name: "",
+		gender: "",
+		race: "",
+		class: "",
+		faction: "",
+		weapon: "",
+		description: "",
+		backstory: "",
+	});
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-	};
+	useEffect(() => {
+		getOneCharacter(characterId)
+			.then((res) => setCharacter(res))
+			.catch((err) => console.error(err));
+	}, []);
+
+	const usableData = charData;
 
 	return (
 		<>
-			<form onSubmit={(e) => handleSubmit(e)}>
+			<form onSubmit={(e) => handleSubmit(e, character)}>
 				<input name="user" type="text" defaultValue={"anonymous"} hidden />
 				<div>
 					<label>Name:</label>
 					<input className="form-input mb-3" type="text" />
+				</div>
+				<div className="w-full">
+					<label>Gender:</label>
+					<select
+						name="gender"
+						id="gender"
+						defaultValue={"pick"}
+						className="form-input mb-3"
+					>
+						<option value="pick" disabled>
+							--Select One--
+						</option>
+						{usableData.gender.map((gender, index) => (
+							<option key={index} value={gender}>
+								{gender}
+							</option>
+						))}
+					</select>
 				</div>
 				<div className="flex gap-3">
 					<div className="w-1/2">
