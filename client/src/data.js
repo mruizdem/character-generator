@@ -1,8 +1,8 @@
 const chardata = {
-    races: ["race1", "race2", "race3"],
-    classes: ["class1", "class2", "class3"],
-    factions: ["faction1", "faction2", "faction3"],
-    weapons: ["weapon1", "weapon2", "weapon3"],
+    races: ["Orc", "Elf", "Human", "Dwarf", "Wolfkin", "Kitsune", "Fairy" ],
+    classes: ["Ranger", "Sorcerer", "Mage", "Bard", "Rogue", "Barbarian", "Paladin", "Gunslinger", "Monk", "Cleric"],
+    factions: ["Empire", "Underground", "Forest Folk", "Neutral", "Hoard"],
+    weapons: ["Axe", "Rapier", "Dagger", "Longbow", "Lance", "Gauntlets", "Greatsword", "Mace", "Warhammer", "Tomahawk", "Shuriken", "Blowgun", "Crossbow", "Flail", "Nunchuks", "Flintlock Pistols"],
 }
 
 export default chardata
