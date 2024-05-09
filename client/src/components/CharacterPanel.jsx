@@ -10,6 +10,7 @@ const CharacterPanel = (props) => {
 						src="/src/assets/testCharacter.png"
 						alt="test_img"
 						className="w-full bg-slate-900 bg-opacity-60 rounded-2xl mb-3 hover:scale-105"
+						loading="lazy"
 					/>
 				</a>
 				<p className="text-xl font-bold">{info.name}</p>
