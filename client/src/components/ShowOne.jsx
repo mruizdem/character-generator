@@ -1,8 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { deleteHandler } from "../services/BackendService";
 
 const ShowOne = (props) => {
 	const { character } = props;
+	const navigate = useNavigate();
+
+	const handleDelete = () => {
+		deleteHandler(character._id)
+			.then((res) => navigate("/"))
+			.catch((err) => console.error(err));
+	};
+
 	return (
 		<>
 			<h1 className="text-2xl text-center">{character.name}</h1>
@@ -20,7 +29,9 @@ const ShowOne = (props) => {
 				>
 					Edit Character
 				</Link>
-				<button className="btn-danger text-sm">Delete Character</button>
+				<button onClick={handleDelete} className="btn-primary text-sm">
+					Delete Character
+				</button>
 			</div>
 		</>
 	);

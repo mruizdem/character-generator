@@ -1,5 +1,6 @@
 import Character from "../models/character.model.js";
 
+// CREATE
 async function createCharacter(req, res) {
     try {
         const character = await Character.create(req.body);
@@ -10,6 +11,8 @@ async function createCharacter(req, res) {
         return res.status(500).json(err);
     }
 }
+
+// READ
 async function getAllCharacters(req, res) {
     try {
         const allCharacters = await Character.find();
@@ -31,16 +34,8 @@ async function getOneCharacterById(req, res) {
         return res.status(500).json(err);
     }
 }
-async function deleteById(req, res) {
-    try {
-        const id = req.params.id;
-        await Character.deleteOne({ _id: id });
-        return res.status(204).json({ message: 'Successfully Deleted!' });
-    }
-    catch (err) {
-        return res.status(500).json(err);
-    }
-}
+
+// UPDATE
 async function updateCharacterById(req, res) {
     try {
         const id = req.params.id
@@ -51,4 +46,17 @@ async function updateCharacterById(req, res) {
         return res.status(500).json(err);
     }
 }
-export { createCharacter, getAllCharacters, getOneCharacterById, deleteById, updateCharacterById};
+
+// DELETE
+async function deleteById(req, res) {
+    try {
+        const id = req.params.id;
+        await Character.deleteOne({ _id: id });
+        return res.status(204).json({ message: 'Successfully Deleted!' });
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}
+
+export { createCharacter, getAllCharacters, getOneCharacterById, deleteById, updateCharacterById };

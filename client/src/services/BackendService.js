@@ -6,10 +6,11 @@ const http = axios.create({
 
 // POST REQUESTS
 async function createCharacter(newCharacter) {
-    http.post('/characters')
+    return http
+        .post('/characters', newCharacter)
         .then(res => res.data)
         .catch(err => {
-            throw err;
+            throw err.response.data.errors;
         })
 }
 // GET REQUESTS
@@ -30,22 +31,22 @@ async function getOneCharacter(id) {
 }
 
 // PUT
-async function updateCharacter(id, newCharacter) {
-    return http.put(`/characters/${id}`, newCharacter)
+async function updateCharacter(id, character) {
+    return http
+        .put(`/characters/${id}`, character)
         .then(res => res.data)
         .catch(err => {
-            throw err;
+            throw err.response.data.errors;
         })
 }
 
 // DELETE
 async function deleteHandler(id) {
-    http.post(`/characters/${id}`)
-        .then((res) => {
-            navigate('/')
+    http.delete(`/characters/${id}`)
+        .then((res) => res)
+        .catch((err) => {
+            throw err;
         })
-        .catch((err) = {})
-    throw err;
 }
 
 export {

@@ -1,20 +1,38 @@
 import React, { useEffect, useState } from "react";
-import charData from "../data.js";
+import { charData, generateName } from "../data.js";
 import { getOneCharacter } from "../services/BackendService.js";
 
 const CharacterForm = (props) => {
-	const { handleSubmit, characterId } = props;
+	const { handleSubmit, characterId, errors } = props;
 	const usableData = charData;
 	const [character, setCharacter] = useState({
 		name: "",
-		gender: "pick",
-		race: "pick",
-		class: "pick",
-		faction: "pick",
-		weapon: "pick",
+		gender: "",
+		race: "",
+		class: "",
+		faction: "",
+		weapon: "",
 		description: "",
 		backstory: "",
 	});
+
+	const getRandomInt = (min, max) => {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	};
+
+	const setRandomCharacter = () => {
+		setCharacter({
+			name: generateName(getRandomInt),
+			gender: usableData.gender[getRandomInt(0, usableData.gender.length - 1)],
+			race: usableData.races[getRandomInt(0, usableData.races.length - 1)],
+			class: usableData.classes[getRandomInt(0, usableData.classes.length - 1)],
+			faction:
+				usableData.factions[getRandomInt(0, usableData.factions.length - 1)],
+			weapon:
+				usableData.weapons[getRandomInt(0, usableData.weapons.length - 1)],
+		});
+		props.setRandom(false);
+	};
 
 	useEffect(() => {
 		if (characterId) {
@@ -22,27 +40,41 @@ const CharacterForm = (props) => {
 				.then((res) => setCharacter(res))
 				.catch((err) => console.error(err));
 		}
-	}, []);
+	}, [characterId]);
+
+	useEffect(() => {
+		if (props.random) {
+			setRandomCharacter();
+		}
+	}, [props.random]);
 
 	return (
 		<>
 			<form onSubmit={(e) => handleSubmit(e, character)}>
+				{/* name */}
 				<input name="user" type="text" defaultValue={"anonymous"} hidden />
-				<div>
+				<div className="flex justify-between">
 					<label>Name:</label>
-					<input
-						name="name"
-						value={character.name}
-						onChange={(e) =>
-							setCharacter({ ...character, name: e.target.value })
-						}
-						className="form-input mb-3"
-						type="text"
-					/>
+					{errors.name ? (
+						<p className="text-red-500">{errors.name.message}</p>
+					) : null}
 				</div>
+				<input
+					name="name"
+					value={character.name}
+					onChange={(e) => setCharacter({ ...character, name: e.target.value })}
+					className="form-input mb-3"
+					type="text"
+				/>
+
 				{/* gender */}
 				<div className="w-full">
-					<label>Gender:</label>
+					<div className="flex justify-between">
+						<label>Gender:</label>
+						{errors.gender ? (
+							<p className="text-red-500">{errors.gender.message}</p>
+						) : null}
+					</div>
 					<select
 						name="gender"
 						value={character.gender}
@@ -51,8 +83,9 @@ const CharacterForm = (props) => {
 						}
 						id="gender"
 						className="form-input mb-3"
+						required
 					>
-						<option value="pick" disabled>
+						<option value="" disabled>
 							--Select One--
 						</option>
 						{usableData.gender.map((gender, index) => (
@@ -62,10 +95,17 @@ const CharacterForm = (props) => {
 						))}
 					</select>
 				</div>
+
+				{/* form row */}
 				<div className="flex gap-3">
 					{/* race */}
 					<div className="w-1/2">
-						<label>Race:</label>
+						<div className="flex justify-between">
+							<label>Race:</label>
+							{errors.race ? (
+								<p className="text-red-500">{errors.race.message}</p>
+							) : null}
+						</div>
 						<select
 							value={character.race}
 							onChange={(e) =>
@@ -74,8 +114,9 @@ const CharacterForm = (props) => {
 							name="race"
 							id="race"
 							className="form-input mb-3"
+							required
 						>
-							<option value="pick" disabled>
+							<option value="" disabled>
 								--Select One--
 							</option>
 							{usableData.races.map((race, index) => (
@@ -85,9 +126,15 @@ const CharacterForm = (props) => {
 							))}
 						</select>
 					</div>
+
 					{/* class */}
 					<div className="w-1/2">
-						<label>Class:</label>
+						<div className="flex justify-between">
+							<label>Class:</label>
+							{errors.class ? (
+								<p className="text-red-500">{errors.class.message}</p>
+							) : null}
+						</div>
 						<select
 							value={character.class}
 							onChange={(e) =>
@@ -96,8 +143,9 @@ const CharacterForm = (props) => {
 							name="class"
 							id="class"
 							className="form-input mb-3"
+							required
 						>
-							<option value="pick" disabled>
+							<option value="" disabled>
 								--Select One--
 							</option>
 							{usableData.classes.map((charClass, index) => (
@@ -108,10 +156,17 @@ const CharacterForm = (props) => {
 						</select>
 					</div>
 				</div>
+
+				{/* form row */}
 				<div className="flex gap-3">
 					{/* factions */}
 					<div className="w-1/2">
-						<label>Factions:</label>
+						<div className="flex justify-between">
+							<label>Factions:</label>
+							{errors.faction ? (
+								<p className="text-red-500">{errors.faction.message}</p>
+							) : null}
+						</div>
 						<select
 							value={character.faction}
 							onChange={(e) =>
@@ -120,8 +175,9 @@ const CharacterForm = (props) => {
 							name="faction"
 							id="faction"
 							className="form-input mb-3"
+							required
 						>
-							<option value="pick" disabled>
+							<option value="" disabled>
 								--Select One--
 							</option>
 							{usableData.factions.map((faction, index) => (
@@ -131,9 +187,15 @@ const CharacterForm = (props) => {
 							))}
 						</select>
 					</div>
+
 					{/* weapons */}
 					<div className="w-1/2">
-						<label>Weapons:</label>
+						<div className="flex justify-between">
+							<label>Weapons:</label>
+							{errors.weapon ? (
+								<p className="text-red-500">{errors.weapon.message}</p>
+							) : null}
+						</div>
 						<select
 							value={character.weapon}
 							onChange={(e) =>
@@ -142,8 +204,9 @@ const CharacterForm = (props) => {
 							name="weapon"
 							id="weapon"
 							className="form-input mb-3"
+							required
 						>
-							<option value="pick" disabled>
+							<option value="" disabled>
 								--Select One--
 							</option>
 							{usableData.weapons.map((weapon, index) => (
@@ -154,24 +217,40 @@ const CharacterForm = (props) => {
 						</select>
 					</div>
 				</div>
+
 				{/* description */}
-				<div>
+				<div className="flex justify-between">
 					<label>Description:</label>
-					<textarea
-						name="description"
-						id="description"
-						className="form-input mb-3"
-					></textarea>
+					{errors.description ? (
+						<p className="text-red-500">{errors.description.message}</p>
+					) : null}
 				</div>
+				<textarea
+					value={character.description}
+					onChange={(e) =>
+						setCharacter({ ...character, description: e.target.value })
+					}
+					name="description"
+					id="description"
+					className="form-input mb-3"
+				></textarea>
+
 				{/* backstory */}
-				<div>
+				<div className="flex justify-between">
 					<label>Backstory:</label>
-					<textarea
-						name="backstory"
-						id="backstory"
-						className="form-input mb-3"
-					></textarea>
+					{errors.backstory ? (
+						<p className="text-red-500">{errors.backstory.message}</p>
+					) : null}
 				</div>
+				<textarea
+					value={character.backstory}
+					onChange={(e) =>
+						setCharacter({ ...character, backstory: e.target.value })
+					}
+					name="backstory"
+					id="backstory"
+					className="form-input mb-3"
+				></textarea>
 				<div className="w-3/4 mx-auto">
 					<button className="btn-primary w-full">Submit</button>
 				</div>
