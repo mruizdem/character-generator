@@ -20,7 +20,7 @@ const Home = (props) => {
 				btnTextOne={"Create A Character"}
 				btnLinkOne={"/character/create"}
 			/>
-			<div className="w-3/4 mx-auto flex flex-col md:grid md:grid-cols-3 gap-3 mb-5">
+			<div className="w-3/4 mx-auto flex flex-col md:grid md:grid-cols-3 2xl:grid-cols-4 screen:grid-cols-6 gap-3 mb-5">
 				{allCharacters.map((character, index) => (
 					<CharacterPanel key={index} info={character} />
 				))}

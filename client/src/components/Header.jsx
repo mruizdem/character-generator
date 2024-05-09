@@ -9,6 +9,7 @@ const Header = (props) => {
 		btnLinkOne,
 		btnTextTwo,
 		btnTwoFunction,
+		loading,
 	} = props;
 
 	return (
@@ -24,8 +25,16 @@ const Header = (props) => {
 					</Link>
 				)}
 				{btnTextTwo && (
-					<button onClick={btnTwoFunction} className="btn-primary text-sm">
-						{btnTextTwo}
+					<button
+						onClick={btnTwoFunction}
+						className={
+							!loading
+								? "btn-primary text-sm"
+								: "animate-pulse btn-primary text-sm"
+						}
+						disabled={loading} // Disable the button when loading
+					>
+						{!loading ? btnTextTwo : "Processing..."}
 					</button>
 				)}
 			</div>

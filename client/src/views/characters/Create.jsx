@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const CreateCharacter = (props) => {
 	const navigate = useNavigate();
 	const [errors, setErrors] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const [random, setRandom] = useState(false);
 
 	const handleSubmit = (e, character) => {
@@ -29,6 +30,7 @@ const CreateCharacter = (props) => {
 				btnLinkOne={"/"}
 				btnTextTwo={"Generate Random!"}
 				btnTwoFunction={randomize}
+				loading={loading}
 			/>
 			<div className="w-3/4 mx-auto rounded-xl text-white bg-slate-900 bg-opacity-60 p-6">
 				<CharacterForm
@@ -36,6 +38,8 @@ const CreateCharacter = (props) => {
 					errors={errors}
 					random={random}
 					setRandom={setRandom}
+					loading={loading}
+					setLoading={setLoading}
 				/>
 			</div>
 		</>
